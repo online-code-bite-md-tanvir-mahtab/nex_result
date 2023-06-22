@@ -11,14 +11,16 @@ import streamlit as st
 
 
 def main(score,value,df,yf):
-  row,col = df[df['next_result'] == yf].shape
+  row,col = df[df['next_result'] != yf].shape
+  print(row)
   correct_prediction = (row/int(len(df))) * 100
   st.title('Upcoming result:')
   st.write(f'Spin Result: {value}')
   st.write(f'Confidence: {score * 100} %')
   st.write(f'Percentage Of correct prediction: {correct_prediction} %')
-  st.title('The updated Data')
-  st.table(df)
+  st.title(f'The updated Data out of 100 ,  data were predicted is {row}')
+  df['result'] = yf
+  st.table(df[df['next_result'] != yf])
 
 
 
