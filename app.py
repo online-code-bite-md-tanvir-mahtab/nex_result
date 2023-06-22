@@ -10,12 +10,15 @@ import streamlit as st
 
 
 
-def main(score,value,df):
-    st.title('Upcoming result:')
-    st.write(f'Spin Result: {value}')
-    st.write(f'Confidence: {score * 100} %')
-    st.title('The updated Data')
-    st.table(df)
+def main(score,value,df,yf):
+  row,col = df[df['next_result'] == yf].shape
+  correct_prediction = (row/int(len(df))) * 100
+  st.title('Upcoming result:')
+  st.write(f'Spin Result: {value}')
+  st.write(f'Confidence: {score * 100} %')
+  st.write(f'Percentage Of correct prediction: {correct_prediction} %')
+  st.title('The updated Data')
+  st.table(df)
 
 
 
@@ -98,7 +101,8 @@ score = accuracy_score(data['result'],result)
 data['next_result'] = result
 n_data = data[['total_payout','next_result']]
 value = n_data['next_result'][0]
+y_data = data['result']
 
 
 if __name__ == '__main__':
-    main(score,value,n_data)
+    main(score,value,n_data,y_data)
